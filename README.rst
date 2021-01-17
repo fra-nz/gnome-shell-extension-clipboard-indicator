@@ -20,3 +20,13 @@ titled 'Clipboard Indicator', in the 'Extensions' screen and turn it 'On'.
 You may need to restart the shell (Alt+F2 and insert 'r' in the prompt) for the
 extension to be listed there.
 
+Notes
+----------------
+
+- reference regarding shell extensions:
+    https://itsfoss.com/gnome-shell-extensions/
+- reference regarding shell extensions settings:
+    https://askubuntu.com/questions/1178580/where-are-gnome-extensions-preferences-stored
+- cache registry file location
+    /home/<user>/.cache/clipboard-indicator@tudmotu.com/registry.txt
+- compile-locales.sh / update-po-files.sh useful for language support
