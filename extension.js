@@ -654,6 +654,9 @@ const ClipboardIndicator = Lang.Class({
 
             this.icon.remove_style_class_name('private-mode');
         } else {
+            // Empty the clipboard
+            Clipboard.set_text(CLIPBOARD_TYPE, "");
+
             this._buttonText.set_text('...');
             this.icon.add_style_class_name('private-mode');
         }
@@ -891,6 +894,9 @@ const ClipboardIndicator = Lang.Class({
 
             this.icon.remove_style_class_name('private-mode');
         } else {
+            // Empty the clipboard
+            Clipboard.set_text(CLIPBOARD_TYPE, "");
+
             this._buttonText.set_text('...');
             this.icon.add_style_class_name('private-mode');
         }
