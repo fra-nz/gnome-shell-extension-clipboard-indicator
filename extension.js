@@ -342,16 +342,17 @@ const ClipboardIndicator = Lang.Class({
 
         ConfirmDialog.openConfirmDialog(title, message, sub_message, _("Clear"), _("Cancel"), () => {;
             let that = this;
-            // We can't actually remove all items, because the clipboard still
-            // has data that will be re-captured on next refresh, so we remove
-            // all except the currently selected item
+
+            // Empty the clipboard
+            Clipboard.set_text(CLIPBOARD_TYPE, "");
+
+            // Remove all items from clipboard
             // Don't remove favorites here
+
             that.historySection._getMenuItems().forEach(function (mItem) {
-                if (!mItem.currentlySelected) {
                     let idx = that.clipItemsRadioGroup.indexOf(mItem);
                     mItem.destroy();
                     that.clipItemsRadioGroup.splice(idx,1);
-                }
             });
             that._updateCache();
             that._showNotification(_("Clipboard history cleared"));
