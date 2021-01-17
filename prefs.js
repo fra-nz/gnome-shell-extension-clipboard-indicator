@@ -101,8 +101,10 @@ const App = new Lang.Class({
         this.field_strip_text = new Gtk.Switch();
         this.field_move_item_first = new Gtk.Switch();
         this.field_keybinding = createKeybindingWidget(SettingsSchema);
+
+        // TODO: update langauage resouces for label
         addKeybinding(this.field_keybinding.model, SettingsSchema, "toggle-menu",
-                      _("Toggle the menu"));
+                      _("Toggle private mode"));
         addKeybinding(this.field_keybinding.model, SettingsSchema, "clear-history",
                       _("Clear history"));
         addKeybinding(this.field_keybinding.model, SettingsSchema, "prev-entry",

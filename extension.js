@@ -863,7 +863,43 @@ const ClipboardIndicator = Lang.Class({
     },
 
     _toggleMenu: function(){
-        this.menu.toggle();
+        let that = this;
+
+        PRIVATEMODE = !PRIVATEMODE;
+
+        this.privateModeMenuItem.setToggleState(PRIVATEMODE)
+
+        // TODO: refactor, rename function and key bindings
+        // TODO: refactor, below code also used in _onPrivateModeSwitch()
+        // TODO: update langauage resouces for notification
+
+        // We hide the history in private ModeTypee because it will be out of sync (selected item will not reflect clipboard)
+        this.scrollViewMenuSection.actor.visible = !PRIVATEMODE;
+        this.scrollViewFavoritesMenuSection.actor.visible = !PRIVATEMODE;
+        // If we get out of private mode then we restore the clipboard to old state
+        if (!PRIVATEMODE) {
+            let selectList = this.clipItemsRadioGroup.filter((item) => !!item.currentlySelected);
+            Clipboard.get_text(CLIPBOARD_TYPE, function (clipBoard, text) {
+                            that._updateButtonText(text);
+                        });
+            if (selectList.length) {
+                this._selectMenuItem(selectList[0]);
+            } else {
+                // Nothing to return to, let's empty it instead
+                Clipboard.set_text(CLIPBOARD_TYPE, "");
+            }
+
+            this.icon.remove_style_class_name('private-mode');
+        } else {
+            this._buttonText.set_text('...');
+            this.icon.add_style_class_name('private-mode');
+        }
+
+        if (PRIVATEMODE) {
+            that._showNotification(_("Private mode switched on"));
+        } else {
+            that._showNotification(_("Private mode switched off"));
+        }
     }
 });
 
