@@ -79,6 +79,8 @@ const ClipboardIndicator = Lang.Class({
         this._shortcutsBindingIds = [];
         this.clipItemsRadioGroup = [];
 
+        this._timestamp = Date.now() / 1000; // in seconds
+
         let hbox = new St.BoxLayout({ style_class: 'panel-status-menu-box clipboard-indicator-hbox' });
         this.icon = new St.Icon({ icon_name: INDICATOR_ICON,
             style_class: 'system-status-icon clipboard-indicator-icon' });
@@ -488,11 +490,20 @@ const ClipboardIndicator = Lang.Class({
             if (itemIndex < 0) {
                 that._addEntry(text, false, true, false);
                 that._removeOldestEntries();
-                if (NOTIFY_ON_COPY) {
+
+                // get current timestamp in seconds
+                let timestamp = Date.now() / 1000;
+                // copy notification expired if more than 120s in the past
+                let isExpired = (timestamp - that._timestamp) > 120;
+
+                if (NOTIFY_ON_COPY && isExpired) {
                     that._showNotification(_("Copied to clipboard"), notif => {
                         notif.addAction(_('Cancel'), Lang.bind(that, that._cancelNotification));
                     });
                 }
+
+                // update timestamp
+                that._timestamp = timestamp;
             }
             else if (itemIndex >= 0 && itemIndex < registry.length - 1) {
                 const item = that._findItem(text);
