@@ -357,7 +357,6 @@ const ClipboardIndicator = Lang.Class({
                     that.clipItemsRadioGroup.splice(idx,1);
             });
             that._updateCache();
-            that._showNotification(_("Clipboard history cleared"));
         });
     },
 
