@@ -79,7 +79,7 @@ const ClipboardIndicator = Lang.Class({
         this._shortcutsBindingIds = [];
         this.clipItemsRadioGroup = [];
 
-        this._timestamp = Date.now() / 1000; // in seconds
+        this._timestamp = null;
 
         let hbox = new St.BoxLayout({ style_class: 'panel-status-menu-box clipboard-indicator-hbox' });
         this.icon = new St.Icon({ icon_name: INDICATOR_ICON,
@@ -492,8 +492,12 @@ const ClipboardIndicator = Lang.Class({
 
                 // get current timestamp in seconds
                 let timestamp = Date.now() / 1000;
-                // copy notification expired if more than 120s in the past
-                let isExpired = (timestamp - that._timestamp) > 120;
+
+                let isExpired = true;
+                if (that._timestamp) {
+                    // time expired if more than 120s in the past
+                    isExpired = (timestamp - that._timestamp) > 10;
+                }
 
                 if (NOTIFY_ON_COPY && isExpired) {
                     that._showNotification(_("Copied to clipboard"), notif => {
