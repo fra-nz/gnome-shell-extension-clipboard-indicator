@@ -489,24 +489,6 @@ const ClipboardIndicator = Lang.Class({
             if (itemIndex < 0) {
                 that._addEntry(text, false, true, false);
                 that._removeOldestEntries();
-
-                // get current timestamp in seconds
-                let timestamp = Date.now() / 1000;
-
-                let isExpired = true;
-                if (that._timestamp) {
-                    // time expired if more than 120s in the past
-                    isExpired = (timestamp - that._timestamp) > 120;
-                }
-
-                if (NOTIFY_ON_COPY && isExpired) {
-                    that._showNotification(_("Copied to clipboard"), notif => {
-                        notif.addAction(_('Cancel'), Lang.bind(that, that._cancelNotification));
-                    });
-                }
-
-                // update timestamp
-                that._timestamp = timestamp;
             }
             else if (itemIndex >= 0 && itemIndex < registry.length - 1) {
                 const item = that._findItem(text);
@@ -516,6 +498,24 @@ const ClipboardIndicator = Lang.Class({
                     that._moveItemFirst(item);
                 }
             }
+
+            // get current timestamp in seconds
+            let timestamp = Date.now() / 1000;
+
+            let isExpired = true;
+            if (that._timestamp) {
+                // time expired if more than 120s in the past
+                isExpired = (timestamp - that._timestamp) > 120;
+            }
+
+            if (NOTIFY_ON_COPY && isExpired) {
+                that._showNotification(_("Copied to clipboard"), notif => {
+                    notif.addAction(_('Cancel'), Lang.bind(that, that._cancelNotification));
+                });
+            }
+
+            // update timestamp
+            that._timestamp = timestamp;
         }
     },
 
