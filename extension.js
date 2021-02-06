@@ -496,7 +496,7 @@ const ClipboardIndicator = Lang.Class({
                 let isExpired = true;
                 if (that._timestamp) {
                     // time expired if more than 120s in the past
-                    isExpired = (timestamp - that._timestamp) > 10;
+                    isExpired = (timestamp - that._timestamp) > 120;
                 }
 
                 if (NOTIFY_ON_COPY && isExpired) {
